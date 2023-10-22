@@ -52,7 +52,7 @@ CREATE TABLE `Role_Listing` (
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `application_start` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `application_deadline` timestamp NOT NULL,
+    `application_deadline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`Reporting_Manager_ID`) REFERENCES `Staff` (`Staff_ID`),
     FOREIGN KEY (`Role_Name`) REFERENCES `Role` (`Role_Name`),
     FOREIGN KEY (`Department`) REFERENCES `Department` (`Department_Name`),

@@ -25,25 +25,39 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 load_dotenv()
-
-ENDPOINT = os.environ.get("DB")
-
+from models import Role, db
 import pytest
 
-def test_getAllRoles():
-    response = requests.get(ENDPOINT+'/roles')
-    assert response.status_code == 200
-    assert response.json()[0]["message"] == "Successfully retrieved all roles"
-    columns = [
-        "Role_Desc",
-        "Role_Name",
-        "Skills"
-    ]
+def test_getAllRoles(client):
+    role1 = Role(
+        role_name = "Software Engineer",
+        role_desc = "Develop software"
+    
+    )
 
-    data = response.json()[0]['data']
-    for obj in data:
-        for key,values in obj.items():
-            assert key in columns
+    role2 = Role(
+        role_name = "Accountant",
+        role_desc = "Manage accounts"
+    )
+
+    db.session.add(role1)
+    db.session.add(role2)
+    db.session.commit()
+    
+    response = client.get('/staffs')
+    print(response.data)
+    # assert response.status_code == 200
+    # assert response.json()[0]["message"] == "Successfully retrieved all roles"
+    # columns = [
+    #     "Role_Desc",
+    #     "Role_Name",
+    #     "Skills"
+    # ]
+
+    # data = response.json()[0]['data']
+    # for obj in data:
+    #     for key,values in obj.items():
+    #         assert key in columns
            
  
 

@@ -43,15 +43,34 @@ from dotenv import load_dotenv
 from datetime import datetime
 load_dotenv()
 
-app = Flask(__name__)
-DB_URL = os.environ.get('TEST_DATABASE_URL') or os.environ.get("DB_URL")
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)
 
-#db = SQLAlchemy(app)
-CORS(app)
+
+def create_app(testing=False):
+    app = Flask(__name__)
+    if testing:
+        DB_URL = os.environ.get("TEST_DB_URL")
+    else:
+        DB_URL = os.environ.get("DB_URL")
+    app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    db.init_app(app)
+
+    #db = SQLAlchemy(app)
+    CORS(app)
+    return app
+
+app = create_app()
+
+def initialize_db(app):
+    with app.app_context():
+        db.create_all()
+
+def teardown(app):
+    with app.app_context():
+        db.drop_all()
+initialize_db(app)
 
 
 @app.route('/')
@@ -148,6 +167,7 @@ def get_all_managers():
 
 @app.route('/roles', methods=["GET"])
 def get_all_roles():
+    print(request.url)
     try:
         roles = db.session.query(
             Role.Role_Name,

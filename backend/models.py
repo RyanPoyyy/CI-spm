@@ -50,6 +50,16 @@ class Role(db.Model):
 
     Role_Name = Column(String(20), primary_key=True)
     Role_Desc = Column(LONGTEXT, nullable=False)
+    def __init__(self,role_desc, role_name):
+        self.Role_Desc = role_desc
+        self.Role_Name = role_name
+
+    def json(self):
+        return {
+                "Role_Name": self.Role_Name,
+            "Role_Desc": self.Role_Desc,
+                }
+
 
 
 class Skill(db.Model):
@@ -121,7 +131,7 @@ class RoleListing(db.Model):
         "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
     application_start = Column(
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    application_deadline = Column(TIMESTAMP, nullable=False)
+    application_deadline = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"), nullable=False)
 
     country = relationship('Country')
     department = relationship('Department')
