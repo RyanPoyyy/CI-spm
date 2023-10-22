@@ -44,7 +44,7 @@ from datetime import datetime
 load_dotenv()
 
 app = Flask(__name__)
-DB_URL = os.environ.get("DB_URL")
+DB_URL = os.environ.get('TEST_DATABASE_URL') or os.environ.get("DB_URL")
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
