@@ -27,8 +27,10 @@ from dotenv import load_dotenv
 load_dotenv()
 from models import Role, db
 import pytest
+from app import  initialize_db, teardown
 
 def test_getAllRoles(client):
+    initialize_db()
     role1 = Role(
         role_name = "Software Engineer",
         role_desc = "Develop software"
@@ -44,9 +46,9 @@ def test_getAllRoles(client):
     db.session.add(role2)
     db.session.commit()
     
-    response = client.get('/staffs')
+    response = client.get('/roles')
     print(response.data)
-    # assert response.status_code == 200
+    assert response.status_code == 200
     # assert response.json()[0]["message"] == "Successfully retrieved all roles"
     # columns = [
     #     "Role_Desc",

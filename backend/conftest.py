@@ -4,17 +4,22 @@ import pytest
 
 
 
+
+
 @pytest.fixture
 def client():
     """
     CREATES a mock app instance for testing purposes
     """
     app = create_app(testing=True)
-    initialize_db(app)
+    app.config['TESTING'] = True
+
+    # initialize_db(app)
     with app.test_client() as testing_client: 
-        with app.app_context():
-            yield testing_client
-    teardown(app)
+        # with app.app_context():
+        # db.create_all()
+        yield testing_client
+    teardown()
 
 @pytest.fixture
 def init_database():

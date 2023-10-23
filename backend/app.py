@@ -57,20 +57,20 @@ def create_app(testing=False):
 
     db.init_app(app)
 
-    #db = SQLAlchemy(app)
+    # db = SQLAlchemy(app)
     CORS(app)
     return app
 
 app = create_app()
 
-def initialize_db(app):
+def initialize_db():
     with app.app_context():
         db.create_all()
 
-def teardown(app):
+def teardown():
     with app.app_context():
         db.drop_all()
-initialize_db(app)
+initialize_db()
 
 
 @app.route('/')
