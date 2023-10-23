@@ -30,7 +30,6 @@ import pytest
 from app import  initialize_db, teardown
 
 def test_getAllRoles(client):
-    initialize_db()
     role1 = Role(
         role_name = "Software Engineer",
         role_desc = "Develop software"

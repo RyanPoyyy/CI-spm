@@ -46,23 +46,11 @@ load_dotenv()
 
 
 
-def create_app(testing=False):
-    app = Flask(__name__)
-    if testing:
-        DB_URL = os.environ.get("TEST_DB_URL")
-    else:
-        DB_URL = os.environ.get("DB_URL")
-    app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    db.init_app(app)
-
-    # db = SQLAlchemy(app)
-    CORS(app)
-    return app
-
-app = create_app()
-
+app = Flask(__name__)
+CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 def initialize_db():
     with app.app_context():
         db.create_all()
