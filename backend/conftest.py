@@ -16,9 +16,9 @@ def client():
 
     # initialize_db(app)
     with app.test_client() as testing_client: 
-        # with app.app_context():
-        # db.create_all()
-        yield testing_client
+        with app.app_context():
+            db.create_all()
+            yield testing_client
     teardown()
 
 @pytest.fixture
