@@ -56,6 +56,7 @@ else:
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("TEST_DB_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+
 def initialize_db(app):
     with app.app_context():
         db.create_all()
@@ -159,7 +160,6 @@ def get_all_managers():
 
 @app.route('/roles', methods=["GET"])
 def get_all_roles():
-    print(request.url)
     try:
         roles = db.session.query(
             Role.Role_Name,
@@ -184,7 +184,7 @@ def get_all_roles():
                     "Skills": role[2].split(",")
                 }
             for role in roles],
-            "message": "hi retrieved all roles"
+            "message": "Successfully retrieved all roles"
         }
         return jsonify(response, 200)
     
