@@ -1,5 +1,5 @@
 import os
-from app import app,db, initialize_db,teardown
+from app import app,db, initialize_db,teardown, create_app
 import pytest
 
 
@@ -8,15 +8,17 @@ def client():
     """
     CREATES a mock app instance for testing purposes
     """
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("TEST_DB_URL")
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
+    app = create_app(test_db=True)
+
+    # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("TEST_DB_URL")
+    # print(app.config['SQLALCHEMY_DATABASE_URI'])
     app.config['TESTING'] = True
 
     with app.test_client() as testing_client: 
         with app.app_context():
             db.create_all()
             yield testing_client
-            teardown()
+            db.drop_all()
 
 @pytest.fixture
 def init_database():
