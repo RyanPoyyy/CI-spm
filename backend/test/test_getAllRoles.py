@@ -48,6 +48,7 @@ def test_getAllRoles(client):
     response = client.get('/roles')
     print(response.data)
     assert response.status_code == 200
+    print(response[0].json())
     # assert response.json()[0]["message"] == "Successfully retrieved all roles"
     # columns = [
     #     "Role_Desc",

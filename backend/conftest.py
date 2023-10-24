@@ -16,7 +16,8 @@ def client():
         with app.app_context():
             db.create_all()
             yield testing_client
-            teardown()
+    teardown()
+
 
 @pytest.fixture
 def init_database():

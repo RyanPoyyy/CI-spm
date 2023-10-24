@@ -48,7 +48,11 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL")
+
+if __name__ == '__main__':
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL")
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("TEST_DB_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 def initialize_db():
