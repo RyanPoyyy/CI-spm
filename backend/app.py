@@ -53,16 +53,16 @@ if __name__ == '__main__':
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("TEST_DB_URL")
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("TEST_DB_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-def initialize_db():
+def initialize_db(app):
     with app.app_context():
         db.create_all()
 
-def teardown():
+def teardown(app):
     with app.app_context():
         db.drop_all()
-initialize_db()
 
 
 @app.route('/')
@@ -184,7 +184,7 @@ def get_all_roles():
                     "Skills": role[2].split(",")
                 }
             for role in roles],
-            "message": "Successfully retrieved all roles"
+            "message": "hi retrieved all roles"
         }
         return jsonify(response, 200)
     
@@ -631,5 +631,6 @@ def check_applied_role():
         return jsonify({"status":"Role not applied"}),200
     
 if __name__ == '__main__':
+    initialize_db(app)
     app.run(host='0.0.0.0', port=8080, debug=True)
 

@@ -25,7 +25,7 @@ db = SQLAlchemy()
 
 
 class AccessControl(db.Model):
-    __tablename__ = 'access_control'
+    __tablename__ = 'Access_Control'
 
     Access_ID = Column(Integer, primary_key=True)
     Access_Control_Name = Column(String(20), nullable=False)
@@ -34,19 +34,19 @@ class AccessControl(db.Model):
 
 
 class Country(db.Model):
-    __tablename__ = 'country'
+    __tablename__ = 'Country'
 
     Country_Name = Column(String(255), primary_key=True)
 
 
 class Department(db.Model):
-    __tablename__ = 'department'
+    __tablename__ = 'Department'
 
     Department_Name = Column(String(50), primary_key=True)
 
 
 class Role(db.Model):
-    __tablename__ = 'role'
+    __tablename__ = 'Role'
 
     Role_Name = Column(String(20), primary_key=True)
     Role_Desc = Column(LONGTEXT, nullable=False)
@@ -63,7 +63,7 @@ class Role(db.Model):
 
 
 class Skill(db.Model):
-    __tablename__ = 'skill'
+    __tablename__ = 'Skill'
 
     Skill_Name = Column(String(50), primary_key=True)
     Skill_Desc = Column(LONGTEXT)
@@ -72,11 +72,11 @@ class Skill(db.Model):
 
 
 class RoleSkill(db.Model):
-    __tablename__ = 'role_skill'
+    __tablename__ = 'Role_Skill'
 
-    Role_Name = Column(ForeignKey('role.Role_Name'),
+    Role_Name = Column(ForeignKey('Role.Role_Name'),
                        primary_key=True, nullable=False)
-    Skill_Name = Column(ForeignKey('skill.Skill_Name'),
+    Skill_Name = Column(ForeignKey('Skill.Skill_Name'),
                         primary_key=True, nullable=False, index=True)
     created_at = Column(TIMESTAMP, nullable=False,
                         server_default=text("CURRENT_TIMESTAMP"))
@@ -86,19 +86,19 @@ class RoleSkill(db.Model):
 
 
 class Staff(db.Model):
-    __tablename__ = 'staff'
+    __tablename__ = 'Staff'
 
     Staff_ID = Column(Integer, primary_key=True)
     Staff_FName = Column(String(50), nullable=False)
     Staff_LName = Column(String(50), nullable=False)
     Department = Column(ForeignKey(
-        'department.Department_Name'), nullable=False, index=True)
-    Country = Column(ForeignKey('country.Country_Name'),
+        'Department.Department_Name'), nullable=False, index=True)
+    Country = Column(ForeignKey('Country.Country_Name'),
                      nullable=False, index=True)
     Email = Column(String(50), nullable=False)
 
     Access_Control_ID= Column(ForeignKey(
-        'access_control.Access_ID'), nullable=False, index=True)
+        'Access_Control.Access_ID'), nullable=False, index=True)
     created_at = Column(TIMESTAMP, nullable=False,
                         server_default=text("CURRENT_TIMESTAMP"))
 
@@ -116,15 +116,15 @@ class RoleListing(db.Model):
     )
 
     Role_Listing_ID = Column(Integer, primary_key=True)
-    Role_Name = Column(ForeignKey('role.Role_Name'))
+    Role_Name = Column(ForeignKey('Role.Role_Name'))
     Openings = Column(Integer, nullable=False, server_default=text("'0'"))
     Status = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
     Department = Column(ForeignKey(
-        'department.Department_Name'), nullable=False, index=True)
-    Country = Column(ForeignKey('country.Country_Name'),
+        'Department.Department_Name'), nullable=False, index=True)
+    Country = Column(ForeignKey('Country.Country_Name'),
                      nullable=False, index=True)
     Reporting_Manager_ID = Column(ForeignKey(
-        'staff.Staff_ID'), nullable=False, index=True)
+        'Staff.Staff_ID'), nullable=False, index=True)
     created_at = Column(TIMESTAMP, nullable=False,
                         server_default=text("CURRENT_TIMESTAMP"))
     updated_at = Column(TIMESTAMP, nullable=False, server_default=text(
@@ -140,11 +140,11 @@ class RoleListing(db.Model):
 
 
 class StaffSkill(db.Model):
-    __tablename__ = 'staff_skill'
+    __tablename__ = 'Staff_Skill'
 
-    Staff_ID = Column(ForeignKey('staff.Staff_ID'),
+    Staff_ID = Column(ForeignKey('Staff.Staff_ID'),
                       primary_key=True, nullable=False)
-    Skill_Name = Column(ForeignKey('skill.Skill_Name'),
+    Skill_Name = Column(ForeignKey('Skill.Skill_Name'),
                         primary_key=True, nullable=False, index=True)
     created_at = Column(TIMESTAMP, nullable=False,
                         server_default=text("CURRENT_TIMESTAMP"))
@@ -158,7 +158,7 @@ class RoleApplied(db.Model):
 
     Role_Listing_ID = Column(ForeignKey(
         'Role_Listing.Role_Listing_ID'), primary_key=True, nullable=False)
-    Staff_ID = Column(ForeignKey('staff.Staff_ID'),
+    Staff_ID = Column(ForeignKey('Staff.Staff_ID'),
                       primary_key=True, nullable=False, index=True)
     brief_description = Column(LONGTEXT, nullable=True)
     applied_at = Column(TIMESTAMP, nullable=False,
