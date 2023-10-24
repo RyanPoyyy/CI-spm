@@ -16,4 +16,4 @@ export const ALL_ROLE_LISTINGS = "/role-listings";
 export const INDIVIDUAL_ROLE_LISTING = "/role-listings/:id";
 export const LOGIN = "/login";
 export const CREATE_ROLE_LISTING = "/NewRoleListing";
-export const STAFF_PROFILE = "/staff-profile/:id"; //to replace this with the actual link from spm-7
+export const STAFF_PROFILE = "/staff-profile/:id"; //to replace this with the actual link from spm-7!
