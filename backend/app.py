@@ -46,31 +46,24 @@ load_dotenv()
 
 
 
-def create_app(testing=False):
-    app = Flask(__name__)
-    if testing:
-        DB_URL = os.environ.get("TEST_DB_URL")
-    else:
-        DB_URL = os.environ.get("DB_URL")
-    app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app = Flask(__name__)
+CORS(app)
 
-    db.init_app(app)
+if __name__ == '__main__':
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL")
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("TEST_DB_URL")
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("TEST_DB_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 
-    # db = SQLAlchemy(app)
-    CORS(app)
-    return app
-
-app = create_app()
-
-def initialize_db():
+def initialize_db(app):
     with app.app_context():
         db.create_all()
 
-def teardown():
+def teardown(app):
     with app.app_context():
         db.drop_all()
-initialize_db()
 
 
 @app.route('/')
@@ -167,7 +160,6 @@ def get_all_managers():
 
 @app.route('/roles', methods=["GET"])
 def get_all_roles():
-    print(request.url)
     try:
         roles = db.session.query(
             Role.Role_Name,
@@ -639,5 +631,6 @@ def check_applied_role():
         return jsonify({"status":"Role not applied"}),200
     
 if __name__ == '__main__':
+    initialize_db(app)
     app.run(host='0.0.0.0', port=8080, debug=True)
 
