@@ -42,7 +42,7 @@ jobs:
   
       - name: Run pytest
         env:
-          TEST_DB_URL: "mysql+pymysql://root:root_password@localhost:3306/test_db"
+          TEST_DB_URL : "mysql+mysqlconnector://root:root@127.0.0.1:3306/test_db"
         run: |
           cd backend
           pytest -v
