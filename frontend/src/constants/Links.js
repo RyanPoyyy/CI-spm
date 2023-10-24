@@ -12,11 +12,8 @@
 // - 2023-10-14/ZL: Added URL for create role listing page
 // - 2023-10-20/ZL: Added temp URL for staff profile page
 
-
 export const ALL_ROLE_LISTINGS = "/role-listings";
 export const INDIVIDUAL_ROLE_LISTING = "/role-listings/:id";
 export const LOGIN = "/login";
 export const CREATE_ROLE_LISTING = "/NewRoleListing";
-export const STAFF_PROFILE = "/staff-profile/:id"; //to replace this with the actual link from spm-7
-
-
+export const STAFF_PROFILE = "/staff-profile/:id"; //to replace this with the actual link from spm-
